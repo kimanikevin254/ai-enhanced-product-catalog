@@ -58,7 +58,7 @@ def find_similar_products(embedding, limit=2, match_threshold=0.5):
             description,
             price,
             image_url,
-            1 - (pi.embedding::vector <=> (:embedding)::vector) AS similarity
+            1 - (embedding::vector <=> (:embedding)::vector) AS similarity
         FROM products
         WHERE (embedding::vector <=> (:embedding)::vector) < 1 - :match_threshold
         ORDER BY (embedding::vector <=> (:embedding)::vector)
