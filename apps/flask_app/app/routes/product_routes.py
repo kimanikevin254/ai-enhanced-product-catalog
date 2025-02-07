@@ -53,16 +53,15 @@ def generate_image_caption(image_data):
 def find_similar_products(embedding, limit=2, match_threshold=0.5):
     query = text("""
         SELECT
-            p.id AS product_id,
-            p.name,
-            p.description,
-            p.price,
-            pi.image_url,
+            id,
+            name,
+            description,
+            price,
+            image_url,
             1 - (pi.embedding::vector <=> (:embedding)::vector) AS similarity
-        FROM product_images pi
-        JOIN products p ON pi.product_id = p.id
-        WHERE (pi.embedding::vector <=> (:embedding)::vector) < 1 - :match_threshold
-        ORDER BY (pi.embedding::vector <=> (:embedding)::vector)
+        FROM products
+        WHERE (embedding::vector <=> (:embedding)::vector) < 1 - :match_threshold
+        ORDER BY (embedding::vector <=> (:embedding)::vector)
         LIMIT :limit
     """)
 
@@ -73,7 +72,7 @@ def find_similar_products(embedding, limit=2, match_threshold=0.5):
     }))
 
     return [{
-        "product_id": row.product_id,
+        "id": row.id,
         "name": row.name,
         "description": row.description,
         "price": row.price,

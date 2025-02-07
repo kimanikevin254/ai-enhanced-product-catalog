@@ -37,5 +37,5 @@ output:
     sql_raw:
         driver: postgres
         dsn: postgres://<YOUR-DB-USERNAME>:<YOUR-DB-PASSWORD>@<YOUR-DB-HOST>:5432/<YOUR-DB-NAME>?sslmode=disable
-        query: UPDATE product_images SET caption = $1, embedding = $2 WHERE image_url = $3;
+        query: UPDATE products SET description = $1, embedding = $2 WHERE image_url = $3;
         args_mapping: root = [this.caption, this.embeddings.vector(), this.image_url]

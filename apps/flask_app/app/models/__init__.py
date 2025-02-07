@@ -1,1 +1,1 @@
-from .product import Product, ProductImage
+from .product import Product

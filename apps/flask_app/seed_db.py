@@ -3,7 +3,7 @@ import requests
 import re
 import boto3
 import logging
-from app.models import Product, ProductImage
+from app.models import Product
 from app.extensions import db
 from app import create_app
 from urllib.parse import urlparse, unquote
@@ -102,24 +102,20 @@ def seed_database():
                 
         for product in products:
             logger.info(f"Processing product: {product['title']}")
+
+            # Upload first image if available
+            image_url = None
+            if product.get("images"):
+                logger.info(f"Uploading image for product {product['title']}")
+                image_url = upload_to_s3(product["images"][0])  # Take the first image
+
             new_product = Product(
                 name=product["title"],
                 price=product["price"],
-                description=product["description"],
+                image_url=image_url
             )
+
             db.session.add(new_product)
-            db.session.flush()  
-            
-            # Process product images
-            for image_url in product.get("images", []):
-                logger.info(f"Processing image for product {product['title']}: {image_url}")
-                s3_image_url = upload_to_s3(image_url)
-                if s3_image_url:
-                    product_image = ProductImage(
-                        product_id=new_product.id,
-                        image_url=s3_image_url
-                    )
-                    db.session.add(product_image)
 
         db.session.commit()
         logger.info(f"Successfully seeded {len(products)} products!")
