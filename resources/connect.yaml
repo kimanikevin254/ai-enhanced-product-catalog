@@ -3,10 +3,10 @@ input:
         region: "eu-north-1"
         credentials:
             id: "<YOUR-AWS-ACCESS-ID>"
-            secret: "YOUR-AWS-SECRET"
+            secret: "<YOUR-AWS-SECRET>"
             from_ec2_role: false
         sqs:
-            url: "https://sqs.<YOUR-AWS-REGION>.amazonaws.com/<YOUR-AWS-ACCOUNT-ID>/product-images-queue"
+            url: "https://sqs.<YOUR-AWS-REGION>.amazonaws.com/<YOUR-AWS-ACCOUNT-ID>/<YOUR-SQS-QUEUE-NAME>"
             key_path: Records.*.s3.object.key
             bucket_path: Records.*.s3.bucket.name
 
