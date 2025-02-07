@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search</title>
+    <!-- Bootstrap CSS from CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Search Products</h1>
+        
+        <!-- Instructional message -->
+        <div class="alert alert-info">
+            You can search for products using either a text query or by uploading an image. Please choose one method.
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            <!-- Text-based search input -->
+            <div class="form-group">
+                <label for="query">Search by text:</label>
+                <input type="text" class="form-control" name="query" id="query" placeholder="Search for products" value="{{ request.form.get('query', '') }}">
+            </div>
+
+            <!-- Image upload input -->
+            <div class="form-group">
+                <label for="image">Or search by image:</label>
+                <input type="file" class="form-control mt-2" name="image" accept="image/*" id="image">
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-2">Search</button>
+        </form>
+
+        <div class="row mt-3">
+            {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="{{ product.image_url }}" class="card-img-top" alt="{{ product.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted">${{ product.price }}</p>
+                            <p class="card-text">{{ product.description }}</p>
+                            <p class="card-text">
+                                <strong>Similarity:</strong> {{ product.similarity | round(2) }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+
+    <!-- Bootstrap JS from CDN -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
