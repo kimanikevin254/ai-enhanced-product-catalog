@@ -1,5 +1,3 @@
-# Generate Image Captions Using AI to Enhance Product Catalog
+# AI-captions-product-catalog
 
-This repository demonstrates how to set up a data pipeline with Redpanda Connect. The pipeline streams images from S3, processes them with OpenAI's API, and stores the generated captions in a vector database for advanced semantic search functionality.
-
-![Rough architeture diagram](https://i.imgur.com/BUTjCw5.png)
+Generate image captions using AI to enhance product catalogs
